@@ -1,25 +1,30 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import TodoItem from './TodoItem'
 import './App.css';
 
 class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      todoList: [{todoText: 'todo1', status: false}, {todoText: 'todo2', status: false}],
+    }
+  }
+  //Each todo will look like {todoText: 'some text', status: true}
+
+  changeTodoStatus = (index) => {
+    const newState = JSON.parse(JSON.stringify(this.state))
+    newState.todoList[index].status = true
+    this.setState(newState)
+  }
+
+  
   render() {
+    
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <ul>
+          {this.state.todoList.map((element, index) => <TodoItem todoText={element.todoText} status={element.status} changeTodoStatus={() => {this.changeTodoStatus(index)}}/>)}
+        </ul>
       </div>
     );
   }
